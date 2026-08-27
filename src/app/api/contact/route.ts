@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { renderContactEmail } from '@/lib/contact-email';
 import {
   contactSchema,
   type ContactFieldName,
@@ -10,13 +11,6 @@ export const runtime = 'nodejs';
 
 const TO = process.env.CONTACT_TO_EMAIL ?? 'inquiry@graphicstar.ph';
 const FROM = process.env.CONTACT_FROM_EMAIL ?? 'website@graphicstar.ph';
-
-const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
 
 export async function POST(request: Request): Promise<NextResponse<ContactResponse>> {
   let payload: unknown;
@@ -59,26 +53,15 @@ export async function POST(request: Request): Promise<NextResponse<ContactRespon
 
   try {
     const resend = new Resend(apiKey);
+    const { subject, html, text } = renderContactEmail({ name, email, phone, message });
+
     const { error } = await resend.emails.send({
       from: `Cebu GraphicStar Website <${FROM}>`,
       to: [TO],
       replyTo: email,
-      subject: `Website enquiry from ${name}`,
-      text: [
-        `Name: ${name}`,
-        `E-mail: ${email}`,
-        `Contact number: ${phone}`,
-        '',
-        message,
-      ].join('\n'),
-      html: `
-        <h2>New website enquiry</h2>
-        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p><strong>E-mail:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Contact number:</strong> ${escapeHtml(phone)}</p>
-        <p><strong>Message:</strong></p>
-        <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
-      `,
+      subject,
+      text,
+      html,
     });
 
     if (error) {
