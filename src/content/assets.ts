@@ -83,27 +83,41 @@ export const homeAssets = {
 
 /* -------------------------------------------------------------- clients -- */
 
-const clientLogo = (slug: string, name: string): ImageAsset =>
-  img(`/images/clients/${slug}.svg`, `${name} logo`, 240, 120);
+/**
+ * Client logos.
+ *
+ * Each entry carries its own file name and intrinsic size. `ClientMarquee`
+ * draws them at a fixed height with `w-auto`, so the declared aspect ratio is
+ * what decides how wide each mark renders — a shared placeholder size would
+ * squash the wide logos and stretch the narrow ones.
+ *
+ * The four still on `.svg` are placeholders awaiting a supplied logo.
+ */
+const clientLogo = (
+  file: string,
+  name: string,
+  width: number,
+  height: number,
+): ImageAsset => img(`/images/clients/${file}`, `${name} logo`, width, height);
 
 export const clientLogos: ImageAsset[] = [
-  clientLogo('store-specialist', 'Store Specialist Inc.'),
-  clientLogo('sika', 'Sika Philippines'),
-  clientLogo('sacred-heart-ateneo', 'Sacred Heart School Ateneo de Cebu'),
-  clientLogo('city-savings-bank', 'City Savings Bank'),
-  clientLogo('treasure-island', 'Treasure Island Industrial Corp.'),
-  clientLogo('boysen', 'Pacific Paints Boysen Philippines'),
-  clientLogo('rustans', 'Rustans'),
-  clientLogo('philippine-kenko', 'Philippine Kenko Corp.'),
-  clientLogo('llarch-construction', 'Llarch Construction'),
-  clientLogo('rockwell-land', 'Rockwell Land Corp.'),
-  clientLogo('honda', 'Honda Philippines'),
-  clientLogo('university-of-visayas', 'University of the Visayas'),
-  clientLogo('lear', 'Lear Corporation'),
-  clientLogo('unahco', 'Unahco Inc.'),
-  clientLogo('tsuneishi', 'Tsuneishi Heavy Industries'),
-  clientLogo('jollibee', 'Jollibee'),
-  clientLogo('cebu-landmasters', 'Cebu Landmasters'),
+  clientLogo('store-specialist.svg', 'Store Specialist Inc.', 240, 120),
+  clientLogo('sika.svg', 'Sika Philippines', 240, 120),
+  clientLogo('sacred-heart-ateneo.png', 'Sacred Heart School Ateneo de Cebu', 698, 151),
+  clientLogo('city-savings-bank.png', 'City Savings Bank', 549, 151),
+  clientLogo('treasure-island.png', 'Treasure Island Industrial Corp.', 513, 151),
+  clientLogo('boysen.png', 'Pacific Paints Boysen Philippines', 436, 151),
+  clientLogo('rustans.png', 'Rustans', 358, 151),
+  clientLogo('philippine-kenko.png', 'Philippine Kenko Corp.', 450, 151),
+  clientLogo('llarch-construction.png', 'Llarch Construction', 426, 151),
+  clientLogo('rockwell-land.png', 'Rockwell Land Corp.', 653, 151),
+  clientLogo('honda.png', 'Honda Philippines', 831, 151),
+  clientLogo('university-of-visayas.png', 'University of the Visayas', 722, 151),
+  clientLogo('lear.png', 'Lear Corporation', 432, 151),
+  clientLogo('unahco.png', 'Unahco Inc.', 674, 151),
+  clientLogo('tsuneishi.png', 'Tsuneishi Heavy Industries', 732, 151),
+  clientLogo('jollibee.svg', 'Jollibee', 240, 120),
+  clientLogo('cebu-landmasters.svg', 'Cebu Landmasters', 240, 120),
 ];
 
 /* ------------------------------------------------------- certifications -- */
