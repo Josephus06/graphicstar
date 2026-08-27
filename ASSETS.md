@@ -33,7 +33,7 @@ than editing this file by hand.
 | `/images/certifications/oshc.svg` | Home | OSHC seal | 320×160 | 2:1 |
 | `/images/about/hero-poster.svg` | About | Media hero — poster still for the full-bleed video | 2400×1000 | 12:5 |
 | `/images/digistar/reel-01-poster.svg` | Home, About | Digistar band — left reel poster | 720×1280 | 9:16 |
-| `/images/digistar/reel-02-poster.svg` | Home, About | Digistar band — right reel poster | 720×1280 | 9:16 |
+| `/images/digistar/reel-02-poster.svg` | Home, About | Digistar band — right reel poster (landscape) | 1280×720 | 16:9 |
 | `/images/portfolio/work-01.svg` | Portfolio | Image portfolio — gallery item 1 | 1200×900 | 4:3 |
 | `/images/portfolio/work-02.svg` | Portfolio | Image portfolio — gallery item 2 | 900×1200 | 3:4 |
 | `/images/portfolio/work-03.svg` | Portfolio | Image portfolio — gallery item 3 | 1600×900 | 16:9 |
@@ -105,7 +105,7 @@ renders its poster still instead of requesting a missing file.
 | --- | --- | --- | --- | --- |
 | `/video/about-hero.mp4` | About | Full-bleed media hero, muted + looping (~600px tall) | — | 12:5 |
 | `/video/digistar-reel-01.mp4` | Home, About | Digistar band — left portrait reel | — | 9:16 |
-| `/video/digistar-reel-02.mp4` | Home, About | Digistar band — right portrait reel | — | 9:16 |
+| `/video/digistar-reel-02.mp4` | Home, About | Digistar band — right landscape reel | — | 16:9 |
 | `/video/portfolio-01.mp4` | Portfolio | Video portfolio — landscape reel 1 | — | 16:9 |
 | `/video/portfolio-02.mp4` | Portfolio | Video portfolio — portrait reel 2 | — | 9:16 |
 | `/video/portfolio-03.mp4` | Portfolio | Video portfolio — landscape reel 3 | — | 16:9 |

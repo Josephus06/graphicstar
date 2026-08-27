@@ -6,13 +6,14 @@ type Variant = 'orange' | 'outline' | 'outline-magenta';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-cta ' +
-  'transition-[background-color,color,border-color,transform,box-shadow] duration-150 ease-out ' +
-  'motion-reduce:transform-none';
+  'group relative inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-cta ' +
+  'transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-out ' +
+  'nudge-arrow motion-reduce:transform-none';
 
 const variants: Record<Variant, string> = {
+  /* `sheen` only reads on a filled surface, so it is scoped to this variant. */
   orange:
-    'bg-orange text-white shadow-pill hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0',
+    'sheen bg-orange text-white shadow-pill hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0',
   outline:
     'border border-ink text-ink hover:-translate-y-0.5 hover:bg-ink hover:text-white active:translate-y-0',
   'outline-magenta':

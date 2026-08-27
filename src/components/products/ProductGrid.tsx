@@ -34,7 +34,7 @@ export function ProductGrid({
       {cells.map((cell) => {
         const inner = (
           <>
-            <div className="relative w-full overflow-hidden bg-grey-panel">
+            <div className="media-frame w-full bg-grey-panel transition-colors duration-300 group-hover:bg-white">
               <div className="relative aspect-square w-full">
                 <Image
                   src={cell.photo.src}
@@ -42,7 +42,7 @@ export function ProductGrid({
                   fill
                   loading="lazy"
                   sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-contain p-8 transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transform-none sm:p-12"
+                  className="object-contain p-8 sm:p-12"
                 />
               </div>
             </div>
@@ -61,7 +61,7 @@ export function ProductGrid({
           <RevealItem
             as="li"
             key={cell.label}
-            className="group border-b border-grey-line bg-white xs:[&:nth-child(odd)]:border-r md:[&:nth-child(odd)]:border-r-0 md:[&:not(:nth-child(3n))]:border-r"
+            className="group relative border-b border-grey-line bg-white transition-colors duration-300 hover:bg-grey-panel/50 xs:[&:nth-child(odd)]:border-r md:[&:nth-child(odd)]:border-r-0 md:[&:not(:nth-child(3n))]:border-r"
           >
             {cell.href ? (
               <Link href={cell.href} className="flex h-full flex-col justify-between">

@@ -121,9 +121,9 @@ export function Certifications() {
           {heading}
           <Eyebrow>{certificationsSection.eyebrow}</Eyebrow>
           <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {ITEMS.map((cert) => (
+            {ITEMS.map((cert, index) => (
               <li key={cert.id}>
-                <Card cert={cert} />
+                <Card cert={cert} index={index} />
               </li>
             ))}
           </ul>
@@ -155,7 +155,7 @@ export function Certifications() {
                 aria-roledescription="slide"
                 aria-label={`${index + 1} of ${ITEMS.length}`}
               >
-                <Card cert={cert} />
+                <Card cert={cert} index={index} />
               </li>
             ))}
           </ul>
@@ -181,9 +181,13 @@ export function Certifications() {
   );
 }
 
-function Card({ cert }: { cert: (typeof ITEMS)[number] }) {
+/**
+ * Seal card. The logo drifts on a long, low-amplitude loop — alternating the
+ * two timings by index stops a row of seals from bobbing in lockstep.
+ */
+function Card({ cert, index }: { cert: (typeof ITEMS)[number]; index: number }) {
   return (
-    <figure className="flex h-[300px] flex-col items-center justify-center gap-7 rounded-media bg-white px-8 text-center shadow-card sm:h-[350px]">
+    <figure className="card-interactive flex h-[300px] flex-col items-center justify-center gap-7 rounded-media bg-white px-8 text-center shadow-card sm:h-[350px]">
       <Image
         src={cert.logo.src}
         alt={cert.logo.alt}
@@ -191,7 +195,10 @@ function Card({ cert }: { cert: (typeof ITEMS)[number] }) {
         height={cert.logo.height}
         loading="lazy"
         sizes="240px"
-        className="h-auto w-[200px] sm:w-[240px]"
+        className={cn(
+          "h-auto w-[200px] sm:w-[240px]",
+          index % 2 === 0 ? "float-slow" : "float-slow-alt",
+        )}
       />
       <figcaption className="text-[15px] font-bold uppercase tracking-cta text-ink sm:text-[16px]">
         {cert.caption}

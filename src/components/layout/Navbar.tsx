@@ -69,7 +69,7 @@ export function Navbar() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 pt-4 sm:pt-6">
       <nav
         aria-label="Primary"
-        className="pointer-events-auto mx-auto flex w-[92%] max-w-content items-center justify-between gap-6 rounded-full bg-white px-4 py-3 shadow-pill sm:px-5 md:w-[90%]"
+        className="pointer-events-auto mx-auto flex w-[92%] max-w-content items-center justify-between gap-6 rounded-full bg-white/85 px-4 py-3 shadow-pill backdrop-blur-md backdrop-saturate-150 transition-shadow duration-300 hover:shadow-lift sm:px-5 md:w-[90%]"
       >
         <Logo priority height={40} />
 
@@ -81,7 +81,7 @@ export function Navbar() {
                 href={link.href}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 className={cn(
-                  'rounded-sm text-[15px] font-medium transition-colors duration-150 hover:text-blue',
+                  'link-sweep rounded-sm text-[15px] font-medium transition-colors duration-200 hover:text-blue',
                   isActive(link.href) ? 'text-blue' : 'text-ink',
                 )}
               >

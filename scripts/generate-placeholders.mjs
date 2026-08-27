@@ -55,7 +55,7 @@ const SLOTS = [
 
   // --- digistar band -----------------------------------------------------
   ['images/digistar/reel-01-poster.svg', 720, 1280, 'magenta', 'Home, About', 'Digistar band — left reel poster'],
-  ['images/digistar/reel-02-poster.svg', 720, 1280, 'magenta', 'Home, About', 'Digistar band — right reel poster'],
+  ['images/digistar/reel-02-poster.svg', 1280, 720, 'magenta', 'Home, About', 'Digistar band — right reel poster (landscape)'],
 
   // --- portfolio ---------------------------------------------------------
   ...[
@@ -123,7 +123,7 @@ for (const [slug, name] of APPAREL_ITEMS) {
 const VIDEO_SLOTS = [
   ['video/about-hero.mp4', '12:5', 'About', 'Full-bleed media hero, muted + looping (~600px tall)'],
   ['video/digistar-reel-01.mp4', '9:16', 'Home, About', 'Digistar band — left portrait reel'],
-  ['video/digistar-reel-02.mp4', '9:16', 'Home, About', 'Digistar band — right portrait reel'],
+  ['video/digistar-reel-02.mp4', '16:9', 'Home, About', 'Digistar band — right landscape reel'],
   ['video/portfolio-01.mp4', '16:9', 'Portfolio', 'Video portfolio — landscape reel 1'],
   ['video/portfolio-02.mp4', '9:16', 'Portfolio', 'Video portfolio — portrait reel 2'],
   ['video/portfolio-03.mp4', '16:9', 'Portfolio', 'Video portfolio — landscape reel 3'],

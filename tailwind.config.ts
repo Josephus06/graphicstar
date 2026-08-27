@@ -41,6 +41,11 @@ const config: Config = {
         pill: '0 6px 24px rgba(21, 21, 21, 0.08)',
         card: '0 8px 30px rgba(21, 21, 21, 0.06)',
         lift: '0 10px 26px rgba(21, 21, 21, 0.14)',
+        /* Raised state for cards. Two layers: a tight contact shadow keeps the
+           card anchored, a wide soft one carries the sense of height. */
+        float: '0 2px 6px rgba(21, 21, 21, 0.05), 0 20px 44px rgba(21, 21, 21, 0.13)',
+        /* Same geometry, tinted to the brand blue for accent surfaces. */
+        glow: '0 2px 6px rgba(5, 0, 255, 0.06), 0 20px 44px rgba(5, 0, 255, 0.16)',
       },
       letterSpacing: {
         eyebrow: '0.15em',

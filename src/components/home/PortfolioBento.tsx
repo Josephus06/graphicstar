@@ -68,16 +68,22 @@ export function PortfolioBento() {
           {cells.map((cell) => (
             <RevealItem
               key={cell.asset.src}
-              className={cn('group overflow-hidden rounded-media bg-grey-line/40', cell.span)}
+              className={cn('group', cell.span)}
             >
-              <div className={cn('relative w-full', cell.ratio)}>
+              <div
+                className={cn(
+                  'media-frame media-scrim card-interactive w-full rounded-media bg-grey-line/40',
+                  cell.ratio,
+                )}
+              >
                 <Image
                   src={cell.asset.src}
                   alt={cell.asset.alt}
                   fill
                   loading="lazy"
                   sizes={cell.sizes}
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none"
+                  /* Scale is owned by `.media-frame img` so the frame and its image share one timing. */
+                  className="object-cover"
                 />
               </div>
             </RevealItem>

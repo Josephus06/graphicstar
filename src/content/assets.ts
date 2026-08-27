@@ -36,7 +36,7 @@ export type VideoAsset = {
  * Flip this to `true` once the real .mp4 files are in /public/video — until then
  * every video slot renders its poster still instead of requesting a missing file.
  */
-export const VIDEO_ASSETS_READY = false;
+export const VIDEO_ASSETS_READY = true;
 
 const img = (src: string, alt: string, width: number, height: number): ImageAsset => ({
   src,
@@ -135,6 +135,11 @@ export const aboutHeroVideo: VideoAsset = {
 
 /* -------------------------------------------------------- digistar band -- */
 
+/**
+ * The two band reels are deliberately different shapes: a 9:16 portrait beside
+ * a 16:9 landscape. `DigistarBand` sizes each cell from these dimensions, so
+ * changing an aspect here is all that is needed to re-proportion the row.
+ */
 export const digistarReels: VideoAsset[] = [
   {
     src: '/video/digistar-reel-01.mp4',
@@ -147,11 +152,13 @@ export const digistarReels: VideoAsset[] = [
     poster: img(
       '/images/digistar/reel-02-poster.svg',
       'Digistar transparent LED display reel',
-      720,
       1280,
+      720,
     ),
-    width: 720,
-    height: 1280,
+    // Matches the source file (1920×1080). The poster is a smaller 16:9 stand-in,
+    // so it shares the aspect and nothing shifts when the video takes over.
+    width: 1920,
+    height: 1080,
   },
 ];
 
