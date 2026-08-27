@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
+import { ClientMarquee } from '@/components/home/ClientMarquee';
 import { ClosingCta } from '@/components/layout/ClosingCta';
 import { TickerStrip } from '@/components/layout/TickerStrip';
-import { ImagePortfolio } from '@/components/portfolio/ImagePortfolio';
-import { VideoPortfolio } from '@/components/portfolio/VideoPortfolio';
-import { PageHero } from '@/components/ui/PageHero';
+import { PortfolioHero } from '@/components/portfolio/PortfolioHero';
+import { PortfolioTabs } from '@/components/portfolio/PortfolioTabs';
 import { portfolioPage } from '@/content/portfolio';
 
 export const metadata: Metadata = {
@@ -18,15 +18,17 @@ export default function PortfolioPage() {
       <div className="pt-24 sm:pt-28">
         <TickerStrip />
       </div>
-      <PageHero title={portfolioPage.title} />
-      <ImagePortfolio
-        eyebrow={portfolioPage.imageSection.eyebrow}
+
+      <PortfolioHero />
+
+      <PortfolioTabs
         images={[...portfolioPage.imageSection.images]}
-      />
-      <VideoPortfolio
-        eyebrow={portfolioPage.videoSection.eyebrow}
         videos={[...portfolioPage.videoSection.videos]}
       />
+
+      {/* Logo strip and CTA band are the shared home-page components, so the
+          page picks up any change to them for free. */}
+      <ClientMarquee />
       <ClosingCta />
     </>
   );

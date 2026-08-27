@@ -170,19 +170,130 @@ export const productPhoto = (slug: string, label: string): ImageAsset =>
 
 /* ------------------------------------------------------------ portfolio -- */
 
-export const portfolioImages: ImageAsset[] = [
-  img('/images/portfolio/work-01.svg', 'Full colour vehicle wrap produced in Cebu', 1200, 900),
-  img('/images/portfolio/work-02.svg', 'Retail window graphics installation', 900, 1200),
-  img('/images/portfolio/work-03.svg', 'Event stage backdrop printed on tension fabric', 1600, 900),
-  img('/images/portfolio/work-04.svg', 'Acrylic build-up office reception signage', 1200, 1200),
-  img('/images/portfolio/work-05.svg', 'Roll-up banner set for a product launch', 900, 1200),
-  img('/images/portfolio/work-06.svg', 'Custom trade show booth with printed panels', 1600, 900),
-  img('/images/portfolio/work-07.svg', 'Screen-printed corporate uniforms', 1200, 900),
-  img('/images/portfolio/work-08.svg', 'Illuminated pylon sign for a commercial building', 900, 1200),
-  img('/images/portfolio/work-09.svg', 'Wall mural printed and installed in an office', 1600, 900),
-  img('/images/portfolio/work-10.svg', 'Acrylic and wood awards with engraved plates', 1200, 1200),
-  img('/images/portfolio/work-11.svg', 'Mall atrium activation booth', 1200, 900),
-  img('/images/portfolio/work-12.svg', 'LED wall installed for a corporate conference', 1600, 900),
+/**
+ * Portfolio cards carry a title and a category tag for the grid overlay, on top
+ * of the plain image fields. Swap `src` for real photography and the rest of the
+ * page follows.
+ */
+export type PortfolioImage = ImageAsset & {
+  title: string;
+  category: string;
+};
+
+/**
+ * `file` includes its extension, so a slot can move from the placeholder .svg
+ * to a real .png or .jpg by editing that one string — no change anywhere else.
+ */
+const work = (
+  file: string,
+  alt: string,
+  width: number,
+  height: number,
+  title: string,
+  category: string,
+): PortfolioImage => ({
+  ...img(`/images/portfolio/${file}`, alt, width, height),
+  title,
+  category,
+});
+
+export const portfolioImages: PortfolioImage[] = [
+  work(
+    'work-01.jpg',
+    'Four backlit lightbox panels showing jewellery photography, mounted on a retail wall',
+    2048,
+    1576,
+    'Backlit Jewellery Lightboxes',
+    'Signage',
+  ),
+  work(
+    'work-02.jpg',
+    'Illuminated built-up letter sign — a red disc with a face-lit V, mounted on a slatted wall',
+    2048,
+    1576,
+    'Illuminated Built-Up Signage',
+    'Signage',
+  ),
+  work(
+    'work-03.jpg',
+    'Outdoor LED banner wall at night running sponsor content for an event',
+    2048,
+    1576,
+    'Event LED Banner Wall',
+    'Digital Displays',
+  ),
+  work(
+    'work-04.jpg',
+    'LED start arch and side banners built for a night fun-run, showing sponsor branding',
+    2048,
+    1576,
+    'Fun Run LED Start Arch',
+    'Digital Displays',
+  ),
+  work(
+    'work-05.jpg',
+    'Three framed backlit poster panels installed above shelving in a retail store',
+    2048,
+    1576,
+    'Retail Poster Panels',
+    'Large Format',
+  ),
+  work(
+    'work-06.jpg',
+    'Double-walled glass mug with a bamboo lid, printed with a corporate logo',
+    2048,
+    1576,
+    'Branded Glassware',
+    'Corporate Merchandise',
+  ),
+  work(
+    'work-07.jpg',
+    'Two custom acrylic tournament medals on printed lanyards, champion and runner-up',
+    2048,
+    1576,
+    'Custom Tournament Medals',
+    'Frames and Awards',
+  ),
+  work(
+    'work-08.jpg',
+    'Three portrait LED totem displays running brand content in an office corridor',
+    2048,
+    1576,
+    'LED Totem Displays',
+    'Digital Displays',
+  ),
+  work(
+    'work-09.jpg',
+    'Three engraved acrylic marine labels reading Galley, Captain and Duct Trunk',
+    1667,
+    1282,
+    'Engraved Acrylic Labels',
+    'Signage',
+  ),
+  work(
+    'work-10.jpg',
+    'Three branded ballpoint pens printed with the Cebu GraphicStar logo',
+    2048,
+    1576,
+    'Branded Ballpoint Pens',
+    'Corporate Merchandise',
+  ),
+  work(
+    'work-11.jpg',
+    'Two portrait LED poster displays mounted on a timber wall in a hotel interior',
+    2048,
+    1576,
+    'Hotel LED Poster Displays',
+    'Digital Displays',
+  ),
+  work(
+    'work-12.jpg',
+    'Long LED perimeter banner at a daytime fun-run, with runners gathered behind it',
+    2048,
+    1576,
+    'Event Perimeter LED Banner',
+    'Digital Displays',
+  ),
 ];
 
 export type PortfolioVideo = VideoAsset & {
@@ -192,61 +303,69 @@ export type PortfolioVideo = VideoAsset & {
 
 export const portfolioVideos: PortfolioVideo[] = [
   {
-    title: 'Trade show booth build',
+    title: 'LED Poster Display Range',
     orientation: 'landscape',
     src: '/video/portfolio-01.mp4',
-    poster: img('/images/portfolio/video-01-poster.svg', 'Trade show booth build time-lapse', 1600, 900),
-    width: 1600,
-    height: 900,
+    poster: img(
+      '/images/portfolio/video-01-poster.jpg',
+      'Three free-standing LED poster displays running colourful motion graphics',
+      1280,
+      720,
+    ),
+    width: 1280,
+    height: 720,
   },
   {
-    title: 'LED wall installation',
+    title: 'Panel Trimming',
     orientation: 'portrait',
     src: '/video/portfolio-02.mp4',
-    poster: img('/images/portfolio/video-02-poster.svg', 'LED wall installation reel', 720, 1280),
+    poster: img(
+      '/images/portfolio/video-02-poster.jpg',
+      'A technician in Cebu GraphicStar uniform trimming a printed panel on a bench cutter',
+      720,
+      1280,
+    ),
     width: 720,
     height: 1280,
   },
   {
-    title: 'Large-format press run',
+    title: 'Frame Assembly',
     orientation: 'landscape',
     src: '/video/portfolio-03.mp4',
     poster: img(
-      '/images/portfolio/video-03-poster.svg',
-      'Large-format printer running a banner',
-      1600,
-      900,
+      '/images/portfolio/video-03-poster.jpg',
+      'Gloved hands measuring a black frame on a workshop bench',
+      1280,
+      720,
     ),
-    width: 1600,
-    height: 900,
+    width: 1280,
+    height: 720,
   },
   {
-    title: 'Storefront signage reveal',
-    orientation: 'portrait',
-    src: '/video/portfolio-04.mp4',
-    poster: img('/images/portfolio/video-04-poster.svg', 'Storefront signage reveal reel', 720, 1280),
-    width: 720,
-    height: 1280,
-  },
-  {
-    title: 'Apparel printing line',
+    title: 'Digistar Visuals Display',
     orientation: 'landscape',
     src: '/video/portfolio-05.mp4',
     poster: img(
-      '/images/portfolio/video-05-poster.svg',
-      'Apparel printing production line',
-      1600,
-      900,
+      '/images/portfolio/video-05-poster.jpg',
+      'A Digistar Visuals LED display mounted on a plinth in a studio setting',
+      1280,
+      720,
     ),
-    width: 1600,
-    height: 900,
+    width: 1280,
+    height: 720,
   },
   {
-    title: 'Modular display assembly',
+    title: 'Digistar Visuals Reel',
     orientation: 'portrait',
     src: '/video/portfolio-06.mp4',
-    poster: img('/images/portfolio/video-06-poster.svg', 'Modular display assembly reel', 720, 1280),
-    width: 720,
+    poster: img(
+      '/images/portfolio/video-06-poster.jpg',
+      'Digistar Visuals title card on a magenta background, from an LED display reel',
+      426,
+      1280,
+    ),
+    // The source is an unusually tall 1:3 reel, not the 9:16 this slot assumed.
+    width: 426,
     height: 1280,
   },
 ];
