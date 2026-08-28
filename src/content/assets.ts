@@ -91,7 +91,7 @@ export const homeAssets = {
  * what decides how wide each mark renders — a shared placeholder size would
  * squash the wide logos and stretch the narrow ones.
  *
- * The four still on `.svg` are placeholders awaiting a supplied logo.
+ * Sika is the last one still on `.svg`, a placeholder awaiting a supplied logo.
  */
 const clientLogo = (
   file: string,
@@ -101,7 +101,7 @@ const clientLogo = (
 ): ImageAsset => img(`/images/clients/${file}`, `${name} logo`, width, height);
 
 export const clientLogos: ImageAsset[] = [
-  clientLogo('store-specialist.svg', 'Store Specialist Inc.', 240, 120),
+  clientLogo('store-specialist.png', 'Stores Specialists Inc.', 443, 151),
   clientLogo('sika.svg', 'Sika Philippines', 240, 120),
   clientLogo('sacred-heart-ateneo.png', 'Sacred Heart School Ateneo de Cebu', 698, 151),
   clientLogo('city-savings-bank.png', 'City Savings Bank', 549, 151),
@@ -116,8 +116,8 @@ export const clientLogos: ImageAsset[] = [
   clientLogo('lear.png', 'Lear Corporation', 432, 151),
   clientLogo('unahco.png', 'Unahco Inc.', 674, 151),
   clientLogo('tsuneishi.png', 'Tsuneishi Heavy Industries', 732, 151),
-  clientLogo('jollibee.svg', 'Jollibee', 240, 120),
-  clientLogo('cebu-landmasters.svg', 'Cebu Landmasters', 240, 120),
+  clientLogo('jollibee.png', 'Jollibee', 517, 151),
+  clientLogo('cebu-landmasters.png', 'Cebu Landmasters', 690, 151),
 ];
 
 /* ------------------------------------------------------- certifications -- */
