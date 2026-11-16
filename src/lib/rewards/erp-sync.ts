@@ -1,6 +1,6 @@
 import { pointsForInvoice } from './constants';
 import { db, firstAdminId, type MemberRow } from './db';
-import { ErpError, erpConfigured, getInvoices } from './erp';
+import { ErpError, customerLabel, erpConfigured, getCustomer, getInvoices } from './erp';
 
 /**
  * ERP points sync (replaces loyalty-gfx's hourly `sync:memberpoints`).
@@ -47,6 +47,16 @@ export async function syncMemberPoints(onlyMemberId?: number): Promise<SyncRepor
       failures += 1;
       lines.push(`Failed fetching invoices for ${member.name}: ${(error as ErpError).message}`);
       continue;
+    }
+
+    // Members linked before the ERP connection existed have no customer name yet.
+    if (!member.erp_customer_name) {
+      try {
+        const customer = await getCustomer(member.system_pk!);
+        db().prepare(`UPDATE members SET erp_customer_name = ? WHERE id = ?`).run(customerLabel(customer), member.id);
+      } catch {
+        // Cosmetic only; the points still sync.
+      }
     }
 
     const counts = { added: 0, updated: 0, removed: 0 };
