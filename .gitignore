@@ -6,3 +6,6 @@ out
 next-env.d.ts
 *.tsbuildinfo
 .DS_Store
+
+# Rewards data (SQLite database + uploaded images)
+/data

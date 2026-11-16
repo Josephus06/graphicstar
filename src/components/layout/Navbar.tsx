@@ -5,8 +5,16 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Logo } from '@/components/brand/Logo';
 import { ButtonLink } from '@/components/ui/Button';
-import { navLinks, quoteCta } from '@/content/site';
+import { navLinks, quoteCta, rewardsLink } from '@/content/site';
 import { cn } from '@/lib/cn';
+
+function StarIcon() {
+  return (
+    <svg viewBox="0 0 20 20" width="14" height="14" fill="currentColor" aria-hidden="true">
+      <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z" />
+    </svg>
+  );
+}
 
 /**
  * Floating pill navbar: white, fully rounded, soft shadow, inset 24px from the
@@ -91,9 +99,24 @@ export function Navbar() {
           ))}
         </ul>
 
-        <ButtonLink href={quoteCta.href} size="sm" className="hidden md:inline-flex">
-          {quoteCta.label}
-        </ButtonLink>
+        <div className="hidden items-center gap-3 md:flex">
+          <Link
+            href={rewardsLink.href}
+            aria-current={isActive(rewardsLink.href) ? 'page' : undefined}
+            className={cn(
+              'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[13px] font-semibold transition-colors duration-200',
+              isActive(rewardsLink.href)
+                ? 'border-blue bg-blue text-white'
+                : 'border-grey-line text-ink hover:border-blue hover:text-blue',
+            )}
+          >
+            <StarIcon />
+            {rewardsLink.label}
+          </Link>
+          <ButtonLink href={quoteCta.href} size="sm">
+            {quoteCta.label}
+          </ButtonLink>
+        </div>
 
         {/* Mobile toggle */}
         <button
@@ -155,7 +178,10 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="mt-auto pt-10">
+        <div className="mt-auto flex flex-col gap-3 pt-10">
+          <ButtonLink href={rewardsLink.href} variant="outline" size="lg" className="w-full">
+            {rewardsLink.label}
+          </ButtonLink>
           <ButtonLink href={quoteCta.href} size="lg" className="w-full">
             {quoteCta.label}
           </ButtonLink>

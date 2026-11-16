@@ -15,7 +15,7 @@ export const site = {
 
 export type NavLink = { label: string; href: string };
 
-/** The five primary links, used by both the navbar and the footer. */
+/** The primary links, used by both the navbar and the footer. */
 export const navLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
@@ -23,6 +23,9 @@ export const navLinks: NavLink[] = [
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Contact Us', href: '/contact' },
 ];
+
+/** Rewards login, shown beside the quote button in the navbar. */
+export const rewardsLink: NavLink = { label: 'Rewards Login', href: '/rewards' };
 
 export const quoteCta = { label: 'Request a Quote', href: '/contact' } as const;
 
