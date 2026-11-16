@@ -4,6 +4,7 @@ import { Panel, Table } from '@/components/rewards/Shell';
 import { ButtonLink } from '@/components/ui/Button';
 import { requireRole } from '@/lib/rewards/auth';
 import { formatDate, formatPeso, formatPoints, termsFor } from '@/lib/rewards/constants';
+import { getRates } from '@/lib/rewards/settings';
 import { db, getMemberByUser, totalPoints, type GalleryRow, type PointRow, type RewardRow } from '@/lib/rewards/db';
 import { mediaUrl } from '@/lib/rewards/uploads';
 
@@ -34,7 +35,7 @@ export default async function MemberDashboard({ searchParams }: { searchParams: 
   const rewards = db().prepare(`SELECT * FROM rewards WHERE branch = ? ORDER BY points_required`).all(user.branch) as RewardRow[];
   const gallery = db().prepare(`SELECT * FROM galleries WHERE branch = ? ORDER BY created_at DESC`).all(user.branch) as GalleryRow[];
   const redeemable = rewards.filter((r) => total >= r.points_required).length;
-  const terms = termsFor(user.branch);
+  const terms = termsFor(user.branch, getRates());
 
   return (
     <div className="grid gap-6">

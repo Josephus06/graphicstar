@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { acceptTerms, logout } from '@/lib/rewards/actions/auth';
 import { homeFor, requireUser } from '@/lib/rewards/auth';
 import { termsFor } from '@/lib/rewards/constants';
+import { getRates } from '@/lib/rewards/settings';
 
 export const metadata = { title: 'Terms & Conditions' };
 
@@ -10,7 +11,7 @@ export const metadata = { title: 'Terms & Conditions' };
 export default async function TermsPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const user = await requireUser();
   if (user.role === 'admin' || user.terms_accepted) redirect(homeFor(user.role));
-  const terms = termsFor(user.branch);
+  const terms = termsFor(user.branch, getRates());
   const { error } = await searchParams;
 
   return (

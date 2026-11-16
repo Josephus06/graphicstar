@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { lookupMember, type MemberLookup } from '@/lib/rewards/actions/points';
-import { formatPoints, pointsForBill } from '@/lib/rewards/constants';
+import { formatPoints, formatRate, isFreshTidy, manualRateFor, pointsForBill, type PointRates } from '@/lib/rewards/constants';
 import type { FormState } from '@/lib/rewards/forms';
 import { ActionForm, Alert, Field, SubmitButton, inputClass } from './Form';
 
@@ -13,7 +13,13 @@ type Found = Extract<MemberLookup, { ok: true }>['member'];
  * Points fill in from the bill amount using the member's branch rule
  * (Fresh & Tidy ₱100 = 1 point, otherwise ₱10,000 = 1 point) and stay editable.
  */
-export function AddPoints({ action }: { action: (state: FormState, formData: FormData) => Promise<FormState> }) {
+export function AddPoints({
+  action,
+  rates,
+}: {
+  action: (state: FormState, formData: FormData) => Promise<FormState>;
+  rates: PointRates;
+}) {
   const [query, setQuery] = useState('');
   const [member, setMember] = useState<Found | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -118,7 +124,7 @@ export function AddPoints({ action }: { action: (state: FormState, formData: For
               value={amount}
               onChange={(v) => {
                 setAmount(v);
-                setPoints(v === '' ? '' : pointsForBill(member.branch, Number(v)).toFixed(5));
+                setPoints(v === '' ? '' : pointsForBill(member.branch, Number(v), rates).toFixed(5));
               }}
             />
             <Field
@@ -129,11 +135,7 @@ export function AddPoints({ action }: { action: (state: FormState, formData: For
               required
               value={points}
               onChange={setPoints}
-              hint={
-                member.branch?.toLowerCase().trim() === 'fresh and tidy'
-                  ? 'Fresh & Tidy: ₱100 = 1 point'
-                  : 'Cebu Graphicstar: ₱10,000 = 1 point'
-              }
+              hint={`${isFreshTidy(member.branch) ? 'Fresh & Tidy' : 'Cebu Graphicstar'}: ${formatRate(manualRateFor(member.branch, rates))}`}
             />
             <SubmitButton>Save points</SubmitButton>
           </ActionForm>

@@ -11,6 +11,7 @@ import { syncMemberPoints, type SyncReport } from '../erp-sync';
 import { formValues, parseForm, type FormState } from '../forms';
 import { checkImage, deleteImage, saveImage } from '../uploads';
 import { checkUnique, email, rules, takenMsg } from '../validation';
+import { setRates } from '../settings';
 
 const notice = (path: string, message: string) =>
   `${path}${path.includes('?') ? '&' : '?'}notice=${encodeURIComponent(message)}`;
@@ -227,4 +228,28 @@ export async function runErpSync(_prev: SyncReport | null): Promise<SyncReport> 
   const report = await syncMemberPoints();
   revalidatePath('/rewards');
   return report;
+}
+
+// ================================================================ POINT SETTINGS
+
+const pesosPerPoint = (label: string) =>
+  rules
+    .numeric(label)
+    .refine((v) => v > 0, `The ${label} must be greater than zero.`)
+    .refine((v) => v <= 10_000_000, `The ${label} is too large.`);
+
+const ratesSchema = z.object({
+  graphicstar: pesosPerPoint('Cebu Graphicstar rate'),
+  freshTidy: pesosPerPoint('Fresh & Tidy rate'),
+  erp: pesosPerPoint('ERP invoice rate'),
+});
+
+/** Admin → Settings: pesos per 1 point. Applies to points awarded from now on. */
+export async function saveRates(_prev: FormState, formData: FormData): Promise<FormState> {
+  await requireRole('admin');
+  const parsed = parseForm(ratesSchema, formData);
+  if (parsed.state) return parsed.state;
+  setRates(parsed.data);
+  revalidatePath('/rewards');
+  return { success: 'Point settings saved. New rates apply to points awarded from now on.' };
 }

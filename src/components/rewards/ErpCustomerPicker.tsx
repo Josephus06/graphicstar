@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { searchErpCustomers, verifyMember } from '@/lib/rewards/actions/members';
 import type { ErpCustomer } from '@/lib/rewards/erp';
@@ -13,34 +13,29 @@ import { inputClass } from './Form';
  */
 export function ErpCustomerPicker({ memberId, memberName, erpReady }: { memberId: number; memberName: string; erpReady: boolean }) {
   const [query, setQuery] = useState(memberName);
-  const [results, setResults] = useState<ErpCustomer[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [searching, startSearch] = useTransition();
+  // Results are kept together with the text they answer, so an answer to an older search is
+  // never shown under newer text, and a late answer to an older search is ignored.
+  const [answer, setAnswer] = useState<{ q: string; customers: ErpCustomer[] | null; error: string | null } | null>(null);
+  const latest = useRef(memberName);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  const run = (q: string) =>
-    startSearch(async () => {
-      const result = await searchErpCustomers(q);
-      if (result.ok) {
-        setResults(result.customers);
-        setError(null);
-      } else {
-        setResults(null);
-        setError(result.error);
-      }
-    });
-
-  // Search as the admin types (debounced).
   useEffect(() => {
+    latest.current = query;
     if (!erpReady) return;
     clearTimeout(timer.current);
-    if (query.trim().length < 2) {
-      setResults(null);
-      return;
-    }
-    timer.current = setTimeout(() => run(query), 350);
+    if (query.trim().length < 2) return;
+    timer.current = setTimeout(async () => {
+      const result = await searchErpCustomers(query);
+      if (latest.current !== query) return;
+      setAnswer(result.ok ? { q: query, customers: result.customers, error: null } : { q: query, customers: null, error: result.error });
+    }, 350);
     return () => clearTimeout(timer.current);
   }, [query, erpReady]);
+
+  const current = answer && answer.q === query ? answer : null;
+  const searching = query.trim().length >= 2 && !current;
+  const results = current?.customers ?? null;
+  const error = current?.error ?? null;
 
   if (!erpReady) {
     return (
@@ -69,7 +64,7 @@ export function ErpCustomerPicker({ memberId, memberName, erpReady }: { memberId
         autoComplete="off"
       />
       <div className="mt-2 max-h-64 overflow-y-auto rounded-xl bg-white" aria-live="polite">
-        {searching && !results ? <p className="px-3 py-2 text-[13px] text-grey-muted">Searching the ERP…</p> : null}
+        {searching ? <p className="px-3 py-2 text-[13px] text-grey-muted">Searching the ERP…</p> : null}
         {error ? <p className="px-3 py-2 text-[13px] font-medium text-magenta">{error}</p> : null}
         {results && results.length === 0 ? (
           <p className="px-3 py-2 text-[13px] text-grey-muted">No ERP customer matches “{query}”. Try part of the name.</p>

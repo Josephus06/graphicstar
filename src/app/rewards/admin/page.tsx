@@ -4,6 +4,8 @@ import { PageTitle, Panel } from '@/components/rewards/Shell';
 import { SyncPanel } from '@/components/rewards/SyncPanel';
 import { requireRole } from '@/lib/rewards/auth';
 import { db, listMembers } from '@/lib/rewards/db';
+import { formatRate } from '@/lib/rewards/constants';
+import { getRates } from '@/lib/rewards/settings';
 
 export const metadata = { title: 'Admin Dashboard' };
 
@@ -49,7 +51,7 @@ export default async function AdminDashboard() {
       <BranchSummary />
       <RecentMembers members={recent} />
       <Panel title="ERP points sync">
-        <SyncPanel />
+        <SyncPanel rateLabel={formatRate(getRates().erp)} />
       </Panel>
     </div>
   );

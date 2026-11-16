@@ -8,6 +8,7 @@ import { storePoint, updatePoint } from '@/lib/rewards/actions/points';
 import { requireRole } from '@/lib/rewards/auth';
 import { formatPoints } from '@/lib/rewards/constants';
 import { db, getMember, totalPoints, type PointRow } from '@/lib/rewards/db';
+import { getRates } from '@/lib/rewards/settings';
 
 /** Points screens are identical for admin and staff apart from the URL prefix. */
 type Area = 'admin' | 'staff';
@@ -32,7 +33,7 @@ export async function PointsAddPage({ area }: { area: Area }) {
   return (
     <>
       <PageTitle title="Add points" />
-      <AddPoints action={storePoint.bind(null, area)} />
+      <AddPoints action={storePoint.bind(null, area)} rates={getRates()} />
     </>
   );
 }

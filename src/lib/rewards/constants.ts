@@ -16,19 +16,28 @@ const norm = (value: string | null | undefined) => (value ?? '').trim().toLowerC
 export const isFreshTidy = (branch: string | null | undefined) => norm(branch) === norm(BRANCH_FRESH_TIDY);
 export const isGraphicstar = (branch: string | null | undefined) => norm(branch) === norm(BRANCH_GRAPHICSTAR);
 
+/** Pesos per 1 point. Defaults from loyalty-gfx; admins change them on Admin → Settings. */
+export type PointRates = { graphicstar: number; freshTidy: number; erp: number };
+export const DEFAULT_RATES: PointRates = { graphicstar: 10000, freshTidy: 100, erp: 1000 };
+
+/** Pesos per point for a manually entered bill at this branch. */
+export const manualRateFor = (branch: string | null | undefined, rates: PointRates) =>
+  isFreshTidy(branch) ? rates.freshTidy : rates.graphicstar;
+
 /**
- * Points for a manually entered bill (admin/staff "Add Points" screen):
- * Fresh & Tidy earns 1 point per ₱100, everything else 1 point per ₱10,000.
+ * Points for a manually entered bill (admin/staff "Add Points" screen), using the branch's rate.
  * Rounded to 5 decimals like the original form.
  */
-export function pointsForBill(branch: string | null | undefined, billAmount: number): number {
+export function pointsForBill(branch: string | null | undefined, billAmount: number, rates: PointRates = DEFAULT_RATES): number {
   const amount = Number.isFinite(billAmount) ? billAmount : 0;
-  const points = isFreshTidy(branch) ? amount / 100 : amount / 10000;
-  return Number(points.toFixed(5));
+  return Number((amount / manualRateFor(branch, rates)).toFixed(5));
 }
 
-/** ERP invoice sync rule (sync:memberpoints): 1 point per ₱1,000, 2 decimals. */
-export const pointsForInvoice = (amount: number) => Math.round((amount / 1000) * 100) / 100;
+/** Points for a paid ERP invoice, 2 decimals. */
+export const pointsForInvoice = (amount: number, pesosPerPoint: number = DEFAULT_RATES.erp) =>
+  Math.round((amount / pesosPerPoint) * 100) / 100;
+
+export const formatRate = (pesos: number) => `₱${Number(pesos).toLocaleString('en-PH', { maximumFractionDigits: 2 })} = 1 point`;
 
 /** Progress toward a reward, capped at 100%. */
 export function rewardProgress(current: number, required: number): number {
@@ -38,14 +47,14 @@ export function rewardProgress(current: number, required: number): number {
 
 export type TermsCopy = { version: string; company: string; intro: string; rules: string[] };
 
-export function termsFor(branch: string | null | undefined): TermsCopy {
+export function termsFor(branch: string | null | undefined, rates: PointRates = DEFAULT_RATES): TermsCopy {
   if (isFreshTidy(branch)) {
     return {
       version: 'fresh_and_tidy',
       company: 'Fresh and Tidy',
       intro: 'Welcome to the Fresh & Tidy Rewards Program. Please review the terms below before continuing:',
       rules: [
-        'Every ₱100 spent = 1 reward point.',
+        `Every ₱${rates.freshTidy.toLocaleString('en-PH')} spent = 1 reward point.`,
         'Points can only be used in Fresh & Tidy branches.',
         'Points expire after 12 months of inactivity.',
         'Fresh & Tidy reserves the right to modify rewards anytime.',
