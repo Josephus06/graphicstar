@@ -15,6 +15,8 @@ const NAV = {
     { href: '/rewards/admin/points', label: 'Points' },
     { href: '/rewards/admin/rewards', label: 'Rewards' },
     { href: '/rewards/admin/redemptions', label: 'Redemptions' },
+    { href: '/rewards/admin/quotes', label: 'Quotes' },
+    { href: '/rewards/admin/designer', label: 'Designer' },
     { href: '/rewards/admin/gallery', label: 'Gallery' },
     { href: '/rewards/admin/users', label: 'Users' },
     { href: '/rewards/admin/settings', label: 'Settings' },

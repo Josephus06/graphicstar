@@ -102,3 +102,41 @@ CREATE TABLE IF NOT EXISTS sessions (
   user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   expires_at  INTEGER NOT NULL
 );
+
+-- Design Online (src/lib/designer). Products are configurable printed items;
+-- config is JSON (sizes, option groups with prices, quantity breaks).
+CREATE TABLE IF NOT EXISTS design_products (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug         TEXT    NOT NULL UNIQUE,
+  name         TEXT    NOT NULL,
+  description  TEXT    NOT NULL DEFAULT '',
+  active       INTEGER NOT NULL DEFAULT 0,
+  sort         INTEGER NOT NULL DEFAULT 0,
+  config       TEXT    NOT NULL,
+  created_at   TEXT    NOT NULL DEFAULT (datetime('now')),
+  updated_at   TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Quote requests sent from the designer. selection / breakdown are JSON
+-- snapshots taken at submit time, priced on the server.
+CREATE TABLE IF NOT EXISTS design_quotes (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  reference     TEXT    NOT NULL UNIQUE,
+  product_id    INTEGER REFERENCES design_products(id) ON DELETE SET NULL,
+  product_name  TEXT    NOT NULL,
+  selection     TEXT    NOT NULL,
+  breakdown     TEXT    NOT NULL,
+  total         REAL    NOT NULL,
+  name          TEXT    NOT NULL,
+  email         TEXT    NOT NULL,
+  phone         TEXT    NOT NULL,
+  company       TEXT,
+  notes         TEXT,
+  artwork_file  TEXT,
+  artwork_name  TEXT,
+  proof_file    TEXT,
+  design_json   TEXT,
+  status        TEXT    NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'contacted', 'won', 'lost')),
+  created_at    TEXT    NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT    NOT NULL DEFAULT (datetime('now'))
+);

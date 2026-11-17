@@ -159,7 +159,11 @@ export function Navbar() {
         aria-modal="true"
         aria-label="Site menu"
         hidden={!open}
-        className="pointer-events-auto fixed inset-0 z-40 flex flex-col bg-white px-[var(--gutter)] pb-10 pt-28 md:hidden"
+        // `hidden` alone loses to the display utility, so the display class itself follows `open`.
+        className={cn(
+          'pointer-events-auto fixed inset-0 z-40 flex-col bg-white px-[var(--gutter)] pb-10 pt-28 md:hidden',
+          open ? 'flex' : 'hidden',
+        )}
       >
         <ul className="flex flex-col gap-1">
           {navLinks.map((link) => (
